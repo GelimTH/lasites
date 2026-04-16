@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { ExternalLink, X, MessageCircle, Eye } from 'lucide-react';
 import { Badge } from '@/components/common/Badge';
 import { IOSSlider } from '@/components/ui/IOSSlider';
@@ -212,12 +212,12 @@ function MockupCard({
 }
 
 /* ── Section ─────────────────────────────────────────────────── */
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 };
