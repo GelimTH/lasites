@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'path';
 import { readdirSync, existsSync } from 'fs';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 /**
  * Auto-descobre todas as pastas em src/mockups/ que contêm index.html
  * e as registra como entry points MPA independentes.
@@ -30,7 +32,7 @@ function discoverMockupEntries(): Record<string, string> {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), cloudflare()],
   resolve: {
     alias: { '@': resolve(__dirname, './src') },
   },
