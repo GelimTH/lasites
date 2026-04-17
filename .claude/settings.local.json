@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(rm C:/Users/Usuario/Documents/Mockups/pse/src/App.css)",
+      "Bash(npm run:*)"
       "Bash(npx tsc *)"
     ]
+  }
+  {
+    "custom_instructions": "Atue como um Engenheiro de Software Sênior. Para o projeto LA Sites, priorize a refatoração constante. Ao criar arquivos, siga o padrão de pastas: src/components/common para átomos, src/components/sections para seções da página. Use estritamente a paleta de cores: Primária #9EFF00, Background #0B0515. Todo código deve ser em TypeScript e estilizado com Tailwind CSS. Mantenha o arquivo 'src/constants/index.ts' como a única fonte de verdade para textos, links de contato e dados do showcase. Seja extremamente organizado e evite redundâncias no código."
   }
 }

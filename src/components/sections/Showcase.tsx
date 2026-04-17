@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { ExternalLink, X, MessageCircle, Eye } from 'lucide-react';
 import { Badge } from '@/components/common/Badge';
@@ -8,32 +8,47 @@ import { buildModelWhatsAppUrl } from '@/utils/whatsapp';
 import type { MockupEntry } from '@/types/catalog';
 
 /* ── Live iframe preview (scaled down) ──────────────────────────
-   Renders at 1440 px, CSS-scaled to fit the card thumbnail.
-   pointer-events:none → purely decorative, no interaction.
+   Only mounts the iframe when the card enters the viewport.
+   Keeps iframes out of the initial render → protects LCP.
 */
 function LivePreview({ url, label }: { url: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect(); } },
+      { rootMargin: '200px' },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative overflow-hidden bg-la-surface" style={{ height: 220 }}>
+    <div ref={ref} className="relative overflow-hidden bg-la-surface" style={{ height: 220 }}>
       <div className="absolute inset-0 bg-la-purple/30 animate-pulse" />
-      <div
-        style={{
-          width: 1440,
-          height: 1080,
-          transform: 'scale(0.278)',
-          transformOrigin: 'top left',
-          pointerEvents: 'none',
-        }}
-      >
-        <iframe
-          src={url}
-          width={1440}
-          height={1080}
-          className="block border-0"
-          sandbox="allow-scripts allow-same-origin"
-          title={label}
-          loading="lazy"
-        />
-      </div>
+      {inView && (
+        <div
+          style={{
+            width: 1440,
+            height: 1080,
+            transform: 'scale(0.278)',
+            transformOrigin: 'top left',
+            pointerEvents: 'none',
+          }}
+        >
+          <iframe
+            src={url}
+            width={1440}
+            height={1080}
+            className="block border-0"
+            sandbox="allow-scripts allow-same-origin"
+            title={label}
+          />
+        </div>
+      )}
       <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-la-surface to-transparent" />
     </div>
   );

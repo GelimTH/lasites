@@ -5,6 +5,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { ShowcaseSection, PreviewModal } from '@/components/sections/Showcase';
 import { Process } from '@/components/sections/Process';
+import { About } from '@/components/sections/About';
 import { FAQ } from '@/components/sections/FAQ';
 import { WhatsAppButton } from '@/components/common/WhatsAppButton';
 
@@ -20,6 +21,7 @@ export default function Home() {
 
       <main>
         <Hero onOpenShowcase={() => openPreview(0)} />
+        <About />
         <ShowcaseSection onPreview={openPreview} />
         <Process />
         <FAQ />
